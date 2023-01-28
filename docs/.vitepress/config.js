@@ -28,18 +28,22 @@
  *     pattern        { String }   【 页面编辑 - 地址 】
  *     text           { String }   【 页面编辑 - 展示文案】
  *   carbonAds        { Object }   【 carbon接入  】
- * base               { String } 【  】
- * base               { String } 【  】
- * base               { String } 【  】
- * 
- * 
- * 
 */
 
 const config = {
-  title: 'vite生成文档',
-  description: 'vite文档描述',
+  title: '文档记录',
+  description: '文档记录',
   lastUpdated: true,
+  head: [
+    [
+      'link',
+      {
+        rel: 'Shortcut Icon',
+        type: 'type="image/x-icon"',
+        href: 'static/favicon.ico'
+      }
+    ]
+  ],
   markdown: {
     theme: 'material-palenight',
     lineNumbers: true
@@ -60,14 +64,44 @@ const config = {
             link: '/guide2',
           }
         ]
+      },
+      {
+        text: 'guide3',
+        link: '/guide'
       }
     ],
     sidebar: [
       {
-        text: '侧边栏',
-        collapsible: true,
+        text: '知识点记录',
+        collapsible: false,
         collapsed: true,
         items: [
+          {
+            text: 'css相关',
+            link: '/record/css'
+          }
+        ]
+      },
+      {
+        text: '收藏文章',
+        collapsible: false,
+        collapsed: true,
+        items: [
+          {
+            text: '收藏文章',
+            link: '/article/index'
+          }
+        ]
+      },
+      {
+        text: '问题汇总',
+        collapsible: false,
+        collapsed: true,
+        items: [
+          {
+            text: 'css相关',
+            link: '/question/css'
+          }
         ]
       }
     ],
