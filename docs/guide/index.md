@@ -101,7 +101,7 @@ export default {
 
 ## 图片引入
 
-![An image](/static/logo.jpg)
+![An image](/logo.jpg)
 
 ## vue语法使用
 

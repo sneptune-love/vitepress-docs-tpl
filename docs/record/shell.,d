@@ -1,0 +1,18 @@
+
+
+## sshpass
+
+```sh
+# 免密连接服务器，并执行指定命令
+# -f 读取密码文件
+userName=root
+serverPath=/usr/share/nginx/html/xf-doc/
+sshpass -f /etc/imoneyTest.password ssh $userName@$serverIp "cd /usr/share/nginx/html/xf-doc/ && touch test.txt"
+
+# 上传文件 
+# --delete会删除本地目录中没有的文件 
+# --exclude-from 读取排除的文件，上传时会忽略该文件中配置的路径
+localPath=./dist/
+sshpass -f /etc/imoneyTest.password --exclude-from ./excludeTest.txt rsync -av --delete $localPath* $userName@$serverIp:$serverPath
+
+```

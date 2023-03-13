@@ -1,5 +1,9 @@
 
+const baseUrl = '/xf-doc/'
+
 const config = {
+  base: baseUrl,
+  outDir: '../dist',
   title: '文档记录',
   description: '文档记录',
   lastUpdated: true,
@@ -9,7 +13,7 @@ const config = {
       {
         rel: 'Shortcut Icon',
         type: 'type="image/x-icon"',
-        href: 'static/favicon.ico'
+        href: baseUrl + 'favicon.ico'
       }
     ]
   ],
@@ -18,10 +22,10 @@ const config = {
     lineNumbers: true
   },
   themeConfig: {
-    logo: 'static/logo.jpg',
+    logo: 'logo.jpg',
     lastUpdatedText: '上次更新文案',
     outline: 'deep',
-    outlineTitle: '本页索引',
+    outlineTitle: '本页目录',
     nav: [
       {
         text: '使用教程',
@@ -44,19 +48,39 @@ const config = {
     sidebar: [
       {
         text: '知识点记录',
-        collapsible: false,
-        collapsed: true,
+        collapsible: true,
+        collapsed: false,
         items: [
           {
-            text: 'css相关',
+            text: 'Css',
             link: '/record/css'
+          },
+          {
+            text: 'Js',
+            link: '/record/js'
+          },
+          {
+            text: 'Node',
+            link: '/record/node'
+          },
+          {
+            text: 'Vue',
+            link: '/record/vue'
+          },
+          {
+            text: 'Ts',
+            link: '/record/ts'
+          },
+          {
+            text: 'Git',
+            link: '/record/git'
           }
         ]
       },
       {
         text: '收藏文章',
-        collapsible: false,
-        collapsed: true,
+        collapsible: true,
+        collapsed: false,
         items: [
           {
             text: '收藏文章',
@@ -66,8 +90,8 @@ const config = {
       },
       {
         text: '问题汇总',
-        collapsible: false,
-        collapsed: true,
+        collapsible: true,
+        collapsed: false,
         items: [
           {
             text: 'css相关',
@@ -90,10 +114,6 @@ const config = {
       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/',
       text: 'Edit this page on GitHub'
     },
-    // carbonAds: {
-    //   code: 'your-carbon-code',
-    //   placement: 'your-carbon-placement'
-    // },
     docFooter: {
       prev: 'Pagina prior',
       next: 'Proxima pagina'

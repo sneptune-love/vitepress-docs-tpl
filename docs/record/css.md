@@ -1,5 +1,5 @@
 
-# css知识点记录
+# CSS知识点记录
 
 [css动画](./css-animate)
 
