@@ -1,3 +1,4 @@
+# 汇总
 
 - [面试题-HTML方面](#面试题-html方面)
   - [HTML布局元素的分类和应用场景？](#html布局元素的分类和应用场景)
@@ -58,7 +59,6 @@
   - [vue3.x的特性](#vue3x的特性)
   - [](#)
 
-
 ## 面试题-HTML方面
 
 ### HTML布局元素的分类和应用场景？
@@ -106,8 +106,6 @@
 - aside元素：用于包含与主要内容相关的附加信息，通常用于包含侧栏、广告、相关链接等。
 - footer元素：用于定义文档或页面的页脚，通常包含版权信息、联系方式等。
 
-
-
 ### DOM事件传递问题
 
 事件的传递分为三个阶段：捕获阶段、目标阶段和冒泡阶段
@@ -115,7 +113,6 @@
 在捕获阶段，事件从 document 对象一直向下传递到触发事件的元素。在目标阶段，事件到达了触发事件的元素。在冒泡阶段，事件从触发事件的元素向上传递到 document 对象
 
 事件传递的默认行为是从上往下（捕获阶段）传递，然后从下往上（冒泡阶段）传递，直到达到了 document 对象。在传递的过程中，可以通过 stopPropagation() 方法停止事件的传递，从而防止事件冒泡到父元素或者捕获到子元素
-
 
 ### async和defer的区别
 
@@ -143,13 +140,14 @@
 
 ## BFC
 
-**高度塌陷：** 子元素设置浮动脱离文档流后，无法撑起父元素的高度，就会导致高度塌陷，父元素后面的元素都会向上移动，页面错乱
+**高度塌陷：**   子元素设置浮动脱离文档流后，无法撑起父元素的高度，就会导致高度塌陷，父元素后面的元素都会向上移动，页面错乱
 
 **解决办法：** 开启元素的BFC（块级化格式上下文）属性，下面是几种开启的方法
 
 - 设置父元素overflow属性为hidden（非visible即可），父元素高度恢复正常
 - 设置父元素display属性为inline-block，父元素高度回复正常
 - （推荐）在父元素上添加伪元素after，并设置如下清除浮动属性，父元素高度恢复正常
+
 ```css
 .parent::after {
   display: block;
@@ -157,6 +155,7 @@
   clear: both;
 }
 ```
+
 - 在IE中对父元素zoom设置为1，可开启hasLayout（IE6以下不支持BFC，但是有类似的属性hasLayout），高度恢复正常
 
 ### @support、@media、calc的作用
@@ -205,9 +204,10 @@
 
 ### inline-block元素为什么会有间距，去除间距的方法
 
-元素被当成行内元素排版的时候，元素之间的空白符（回车，空格，换行）会被浏览器处理。html中的回车和换行会被处理成空白符，这些空白符受到字体大小影响形成了间距
+> 元素被当成行内元素排版的时候，元素之间的空白符（回车，空格，换行）会被浏览器处理。html中的回车和换行会被处理成空白符，这些空白符受到字体大小影响形成了间距
 
-解决办法
+`解决办法`
+
 - 在写html时，移除元素中间的换行符和回车。缺点是代码不美观，编辑器自动格式化会添加空白符
 - 使用浮动，但是容易造成高度塌陷，需要配合清除浮动使用
 - font-size设置为0，但是子元素文字大小会受到影响，需要单独给子元素设置font-size
@@ -235,6 +235,7 @@
 **出现原因：**retina屏幕的dpr都是大于等于2，在这个屏幕上0.5px边框，最终展示出来的还是1px边框
 
 - 解决方案1（推荐使用）：使用transform缩放来实现
+
 ```css
 /* 实现元素整体0.5px 边框 */
 .border::after {
@@ -252,7 +253,9 @@
 }
 
 ```
+
 - 解决方案2：如果初始项目可以使用viewport + flexible 实现，根据dpr调整viewport的scale属性
+
 ```html
 <head>
     <meta
@@ -286,7 +289,9 @@
     </script>
   </head>
 ```
+
 - 解决方案3：使用border-image用图片来模拟实现0.5px的边框，缺点是需要额外的图片，不方便修改颜色
+
 ```css
 .border {
   border-width: 1px;
@@ -333,9 +338,7 @@
 
 ```
 
-
-
---- 
+---
 
 ## 面试题-Js方面
 
@@ -409,13 +412,13 @@ fn(); // obj
 
 ```
 
-
 ### call、apply、bind的区别
 
 - call、apply、bind的第一个参数都是this指向的对象
 - call和bind后续传入的参数用逗号分隔，都是方法调用传入的参数；apply的第二个参数是一个数组，将传入的参数汇总到数组中
 - bind返回的是一个函数，需要调用一下才能执行
 - 如何使用apply来模拟实现bind
+
 ```js
 Object.prototype._bind = function() {
   var self = this
@@ -446,17 +449,246 @@ obj.sayName._bind(newObj, '1', '2', '3')()
 
 ```
 
-
-
 ### 节流和防抖函数的作用和场景
+
+``防抖``
+
+高频事件在N秒内只执行一次，如果多次触发，则重新计算时间
+
+适用场景
+
+- 表单按钮提交场景：防止多次点击提交，只执行最后一次点击提交
+- 词汇联想搜索
+
+```js
+function debounce(fn, wait) {
+  var timer;
+  return function() {
+      var _this = this;
+      if (timer) {
+          clearTimeout(timer)
+      }
+      timer = setTimeout(function() {
+          fn.apply(_this, arguments)
+      }, wait)
+  }
+}
+```
+
+``节流``
+
+高频事件在N秒内只执行一次，如果多次触发，只执行第一次；稀释高频事件的执行效率
+
+使用场景：
+
+- 鼠标拖拽事件：规定时间内只执行一次
+- 监控浏览器窗口resize事件
+- 动画场景：避免短时间内多次触发动画
+
+```js
+function throttle(fn, wait) {
+  var timer;
+  return function() {
+    var _this = this;
+    if (timer) return
+    timer = setTimeout(function() {
+      fn.apply(_this, arguments)
+    }, wait)
+  }
+}
+
+```
 
 ### 事件循环
 
+- 主线程自上而下依次执行代码
+- 同步任务直接进入主线程被执行
+- 先执行同步，如果遇到宏任务setTimeout或者微任务promise.then，将其放入队列中
+- 同步任务执行完毕后，在队列中查找微任务，先执行微任务，执行完成后再执行宏任务
+- async 中的await就是promise.then
+
 ### for of 和 for in的区别
+
+- for in 是遍历对象的key值；for of 是遍历数组的value值
+- for in 只遍历可枚举属性以及对象从构造函数原型上继承的属性
+
 
 ### 获取url参数
 
 ### 实现一个网络请求模块，要求进行中的网络请求数量不超过10个，超过10个的进入请求队列中，等待前面的请求结束后陆续发送队列中的请求
+
+### 实现一下深拷贝cloneDeep
+
+```js
+
+function deepClone(obj) {
+  var newObj = {}
+  for (var key in obj) {
+    if (Object.prototype.toString.call(obj[key]) === '[object Object]') {
+      newObj[key] = deepClone(obj[key])
+    } else {
+      newObj[key] = obj[key]
+    }
+  }
+  return newObj
+}
+
+var obj = {
+  a: 1,
+  b: 2,
+  c: {
+    c1: 3,
+    c2: 4
+  }
+}
+
+var newObj = deepClone(obj)
+
+obj.c.c1 = 30
+
+console.log(newObj.c.c1) // 3
+
+```
+
+### 手写一个promise函数
+
+> 手写promise需要遵循几个原则
+
+- 需要有三个状态 初始状态 **pending**、成功状态 **onFulfilled**、失败状态 **onRejected**，并且从初始状态到成功或者失败，不可逆
+- new promise的时候需要传递一个执行器executor，执行器立即执行；executor接受两个参数resolve，reject
+- promise需要保存成功的传递的值value，失败传递的值reason
+- promise异步需要将回调执行方法保存到队列中，所以需要onResolveCallbacks和onRejectedCallbacks两个数组来模拟队列存储回调方法
+- promise需要一个then方法，成功执行onFulfilled，参数是value；失败执行onRejected，参数是reason
+- promise.then方法里面的两个参数如果不是函数，需要将其忽略
+- promise.then必须返回一个promise对象，内部用setTimeout来模拟实现异步操作
+
+```js
+
+var PENDING = 'pending'
+var FULFILLED = 'fulfilled'
+var REJECTED = 'rejected'
+
+function Promise(executor) {
+  var self = this
+  self.status = PENDING
+  self.value = null
+  self.reason = null
+  self.onFulFilledCallbacks = []
+  self.onRejectedCallbacks = []
+  function resolve(value) {
+    if (self.status === PENDING) {
+      self.status = FULFILLED
+      self.value = value
+      self.onFulFilledCallbacks.forEach(function(callback) {
+        callback ? callback(value) : ''
+      })
+    }
+  }
+  function reject(reason) {
+    if (self.status === PENDING) {
+      self.status = REJECTED
+      self.reason = reason
+      self.onRejectedCallbacks.forEach(function(callback) {
+        callback ? callback(reason) : ''
+      })
+    }
+  }
+  try {
+    executor(resolve, reject)
+  } catch(err) {
+    reject(err)
+  }
+}
+
+Promise.prototype.then = function(onFulFilled, onRejected) {
+  var self = this
+  onFulFilled = typeof onFulFilled === 'function' ? onFulFilled : function(value) { return value }
+  onRejected = typeof onRejected === 'function' ? onRejected : function(reason) { throw reason }
+  return new Promise(function(resolve, reject) {
+    if (self.status === FULFILLED) {
+      try {
+        var x = onFulFilled(self.value)
+        if (x instanceof Promise) {
+          x.then(resolve, reject)
+        } else {
+          resolve(x)
+        }
+      } catch (err) {
+        reject(err)
+      }
+    } else if (self.status === REJECTED) {
+      try {
+        let x = onRejected(self.reason)
+        if (x instanceof Promise) {
+          x.then(resolve, reject)
+        } else {
+          reject(x)
+        }
+      } catch (err) {
+        reject(err)
+      }
+    } else if (self.status === PENDING) {
+      self.onFulFilledCallbacks.push(function() {
+        try {
+          var x = onFulFilled(self.value)
+          if (x instanceof Promise) {
+            x.then(resolve, reject)
+          } else {
+            resolve(x)
+          }
+        } catch (err) {
+          reject(err)
+        }
+      })
+      self.onRejectedCallbacks.push(function() {
+        try {
+          var x = onRejected(self.reason)
+          if (x instanceof Promise) {
+            x.then(resolve, reject)
+          } else {
+            reject(x)
+          }
+        } catch (err) {
+          reject(err)
+        }
+      })
+    }
+  })
+}
+
+Promise.prototype.catch = function(onRejected) {
+  return this.then(null, onRejected)
+}
+
+let fn = new Promise((resolve, reject) => {
+  resolve('成功')
+}).then(res => {
+  console.log(res)
+  return '成功2'
+}).then(res => {
+  console.log(res)
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('成功3')
+    }, 1000)
+  })
+}).then('成功4').then(res => {
+  console.log(res)
+  return '成功5'
+}).then(res => {
+  console.log(res)
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject('失败')
+    }, 1000)
+  })
+}).catch(err => {
+  console.log(err)
+})
+
+// 成功 成功2 成功3 成功5 失败
+
+```
 
 ---
 
@@ -473,25 +705,29 @@ obj.sayName._bind(newObj, '1', '2', '3')()
 - 在Render树上对元素的布局（大小，位置）进行计算，并对元素的层级进行合并
 - 根据计算好的信息调用呈现器的绘制方法，来进行绘制
 
-**构建DOM树**
+``构建DOM树``
+
 - Conversion（转换）：浏览器从网络或者磁盘读取HTML文件原始字节，根据指定的文件编码（例如utf-8）将字节转换为字符
 - Tokenizing（分词）：浏览器根据html规范将字符转换为不同的标记（例如`<html>`，`<body>`）
 - Lexing（语法分析）：将标记转换为对象，其包含html语法的各种信息，比如属性，属性值，文本等
 - DOM construction（DOM构造）：将上一步转换的对象连接在一个树状数据结构中，标识父子、兄弟等关系，形成DOM树
 
-**构建CSSOM树**
+``构建CSSOM树``
+
 - CSS引擎会从style、css文件和浏览器代理样式中收集所有的样式规则，进行划分建立索引，方便后续高效查询
 - CSS引擎会遍历DOM节点，进行选择器匹配，为匹配的节点进行样式设置
 - 不会阻塞DOM的构建，但是会阻塞JS的执行。因为js中可能会存在修改css的样式操作。再进入下一阶段前，必须需要等待CSSOM构建完成
 
-**回流/重排** 
+``回流/重排``
+
 - 第一次确定节点的大小和位置叫做布局，重新确定节点的大小和位置，叫做回流
 
-**重绘** 
+``重绘``
+
 - 改变元素的文字颜色，背景色、边框颜色等不影响它本身布局和内部布局的操作，会引起屏幕的重绘
 - display: none 属性会引起回流，visibility: hidden 属性只会引起重绘
 
-**如何减少和避免回流**
+``如何减少和避免回流``
 回流需要的性能消耗要远超于重绘，所以我们尽量要减少回流的操作从而提升性能
 
 - 对需要操作的元素进行离线处理，即利用dom fragment片段来进行缓存操作（优化为一次）
@@ -499,20 +735,16 @@ obj.sayName._bind(newObj, '1', '2', '3')()
 - 对需要操作的元素的display属性设置为none，然后再修改其样式，最后将元素display属性更改为正常展示（优化为两次）
 - 让元素脱离动画流，减少回流需要损耗的性能资源
 
-
-  
-
-
 ### Http、Http2、Https的区别
 
-**Http2.0新特性**
+``Http2.0新特性``
 
 - 传输方式：使用二进制流格式传输数据
 - 多路复用：区别于Http多个并发请求会建立多个TCL连接，在浏览器的限制下，同域名最多限制6个（不同浏览器限制不同）。Http2.0则有连接共享特性，一个连接上可以有多个请求
 - header压缩：引入HPACK压缩首部数据；一个方面是对传输的标头字段编码，减少传输体积；另一方面是两端同时维护更新一个标头字段的索引列表，用作编码参考
 - 服务端推送：在客户端请求资源时，可以将相关的资源推送至客户端缓存，在客户端请求这些资源时，无需请求，直接使用缓存
 
-**Http和Https的区别**
+``Http和Https的区别``
 
 - 传输方式：http是文本传输，https是二进制流传输
 - 端口：http默认是请求服务器的80端口，https默认请求的是443端口
@@ -549,7 +781,7 @@ obj.sayName._bind(newObj, '1', '2', '3')()
 
 - 浏览器发送一个请求，服务端可以在响应头中加入强缓存或者协商缓存字段（缓存策略）。当浏览器发起第二次请求的时候，会将这些字段携带在请求头中，并通过这些字段来判断是否使用浏览器缓存
 
-**强缓存**
+``强缓存``
 
 - 浏览器首先识别请求头中的`Expires`或者`Cache-control`字段，如果其字段缓存时间在有效期内，则直接读取本地缓存。如果失效或者无本地缓存，则继续向服务器请求
   - `Expires`：是http1.0的产物，`Cache-control`是http1.1的产物，两者同时存在，只是一种兼容性的写法，代表兼容http1.0和http1.1；`Cache-control` 优先级高于 `Expires`
@@ -705,65 +937,38 @@ eventBus.emit('click2', { type: 'click2', num: 2 })
 
 ```
 
-### 实现一下深拷贝cloneDeep
-
-```js
-
-function deepClone(obj) {
-  var newObj = {}
-  for (var key in obj) {
-    if (Object.prototype.toString.call(obj[key]) === '[object Object]') {
-      newObj[key] = deepClone(obj[key])
-    } else {
-      newObj[key] = obj[key]
-    }
-  }
-  return newObj
-}
-
-var obj = {
-  a: 1,
-  b: 2,
-  c: {
-    c1: 3,
-    c2: 4
-  }
-}
-
-var newObj = deepClone(obj)
-
-obj.c.c1 = 30
-
-console.log(newObj.c.c1) // 3
-
-```
-
-### 手写一个promise函数
-
-```js
-
-
-```
-
----
-
 ## 面试题-vue方面
 
 ### MVC、MVP、MVVM的认识
+
 ### 生命周期的执行顺序
+
 ### 父子组件生命周期的执行顺序
+
 ### 双向绑定数据的原理
+
 ### v-if和v-for的优先级哪个更高，如果同时出现，会有什么问题？
+
 ### vue的组件data为什么是返回一个函数，根实例则是一个对象？
+
 ### v-for中的key作用是什么？
+
 ### 怎么理解vue的diff算法？
+
 ### 对vue组件化的理解
+
 ### 组件中的通信方式有哪些？
+
 ### vue如何扩展现有的组件？
+
 ### watch和computed的区别
+
 ### nextTick的原理
+
 ### vuex的理解
+
 ### vue-router的钩子函数有哪些？
+
 ### vue的性能优化方法
+
 ### vue3.x的特性
-### 

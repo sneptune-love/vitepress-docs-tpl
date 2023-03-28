@@ -5,7 +5,7 @@
 
 ### 查询
 
-| 名称 | 地址 | 备注 | 
+| 名称 | 地址 | 备注 |
 | -- | -- | -- |
 | 苹果安全更新 | https://support.apple.com/zh-cn/HT201222 | -- |
 | css兼容性查询-can i use | https://www.caniuse.com/ | -- |
