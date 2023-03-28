@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  .fu {
+    width: 200px;
+    border: 1px solid #ccc;
+  }
+  .fu::after {
+    display: block;
+    content: '';
+    clear: both;
+  }
+  .zi {
+    float: left;
+  }
+  .next {
+    width: 100px;
+    height: 100px;
+    background: #000;
+  }
+</style>
+<body>
+  <div class="fu">
+    <div class="zi">我是子元素</div>
+  </div>
+  <div class="next"></div>
+</body>
+</html>
