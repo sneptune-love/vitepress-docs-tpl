@@ -515,7 +515,6 @@ function throttle(fn, wait) {
   - 会遍历数组所有可枚举的属性，包括原型。如果不想遍历原型属性和方法的话，使用hasOwnProperty方法来过滤原型属性和方法
 - for of遍历的是数组元素值，不包含原型；适用于数组/数组对象(arguments)/字符串/map/set等拥有迭代器对象的集合，但是不能遍历对象，因为对象内部没有迭代器
 
-
 ### 0.1+0.2为什么不等于0.3
 
 - IEEE754 标准定义的浮点数只能根据精度舍入，然后用近似值来表示该二进制。js中采用的是其双精度浮点数存储（64位固定长度）
@@ -1000,21 +999,61 @@ eventBus.emit('click2', { type: 'click2', num: 2 })
 
 ### 生命周期的执行顺序
 
-### 父子组件生命周期的执行顺序
+`单组件执行顺序`
+
+beforeCreate、created、beforeMount、mounted、beforeUpdate、updated、activated、deactivated、beforeDestroy、destroyed、errorCaptured
+
+`父子组件执行顺序`
+
+- 执行顺序：父beforeCreate、父created、父beforeMount、子beforeCreate、子created、子beforeMount、子mounted、父mounted
+- 更新过程：父beforeUpdate、子beforeUpdate、子updated、父updated
+- 销毁过程：父beforeDestroy、子beforeDestroy、子destroyed、父destroyed
+
+`执行过程常见问题`
+
+- beforeCreate期间：data和el均为初始化，其值为undefined
+- created期间：可获取到data，但是还未挂载el，无法获取dom
+- beforeMount期间：可获取到data，el挂载虚拟节点，无法获取实际的dom
+- mounted期间：可获取到data，el已经挂载在真实dom中，可获取相关dom元素
+- beforeUpdate和updated期间：el中的数据已经渲染完成，但是只有updated才能访问到更新后的数据
 
 ### 双向绑定数据的原理
 
 ### v-if和v-for的优先级哪个更高，如果同时出现，会有什么问题？
 
+- v-for的优先级比v-if高，所以最好的方式是在v-for绑定元素父级加上v-if，节省性能开销
+- 如果同时出现，v-for会先执行，此时如果没有进行异常处理，则会抛出错误
+
 ### vue的组件data为什么是返回一个函数，根实例则是一个对象？
+
+多个相同组件，如果不返回一个函数，组件内部的data会被相互影响，和我们实际的期望不同，所以组件内部是返回一个函数；而根实例只有一个，所以没有相互影响这个说法
 
 ### v-for中的key作用是什么？
 
+提升diff算法的效率，能更快速准确的更新带有key的元素
+
 ### 怎么理解vue的diff算法？
+
+vue采用虚拟dom来对dom进行操作。在进行新老vnode比对过程中，使用diff算法，来提升计算的性能，从而达到减小dom操作消耗的性能
+
+对比过程主要分为以下四类：
+
+- 新建：新的vnode有这个节点，老vnode没有，此时需要新建
+- 删除：新的vnode没有这个节点，老vnode有，此时需要删除
+- 替换：新的vnode这个节点整体发生了改变，与老vnode不同，此时将其替换
+- 更新：新的vnode这个节点部分发生了改变，与老vnode不同，此时需要部分更新
 
 ### 对vue组件化的理解
 
 ### 组件中的通信方式有哪些？
+
+- :fire: props/$emit：父组件向子组件传递数据使用props，子向父传递数据使用$emit；非父子组件无法使用
+- $children/$parent：父组件通过$children可以拿到子组件的实例，同时可以访问其属性data和方法；子组件通过$parent可以拿到父组件的实例，访问其属性data和方法
+- provide/inject：父组件通过provide提供数据，子孙组件通过inject来获取provide提供的数据
+- ref/refs：父组件在子组件上定义ref，通过$refs来获取子组件实例，访问其属性或者方法
+- eventBus：实例一个vue，并将其暴露出去。在需要通信的组件中相互引入，使用$on监听数据，$emit发送数据
+- vuex：通过全局状态state来共享数据
+- localStorage/sessionStorage：通过本地缓存来进行数据共享
 
 ### vue如何扩展现有的组件？
 
