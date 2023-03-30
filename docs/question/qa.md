@@ -368,14 +368,17 @@ addNum(1, 2)
 
 ```
 
+`使用场景`
 
+CommonJS主要在服务端使用，或者
 
+#### AMD
 
-- AMD：
+### CMD
 
-- CMD
+### UMD
 
-- ESModule  
+### ESModule
 
 ### this的指向
 
