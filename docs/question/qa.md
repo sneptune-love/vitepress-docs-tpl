@@ -343,6 +343,40 @@
 
 ## 面试题-Js方面
 
+### 如何理解组件化？
+
+`为什么需要模块化和模块化规范`
+
+模块化可以解决代码之间的变量、函数、对象等命名的冲突和污染问题；降低代码之间的耦合关系，提高代码的可维护性、可扩展性以及复用性
+
+模块化规范是为了规范模块的定义和加载机制，以统一的方式导出和加载模块，降低学习成本和提高开发效率
+
+#### CommonJS
+
+主要是Node.js使用，通过 `exports` 导出内容，`require` 同步加载模块；在CommonJS规范下，每一个JS文件都是独立的模块，每个模块都有独立的作用域，模块内的变量都是私有的
+
+```js
+// a.js 导出文件
+const addNum = (a, b) => {
+  return a + b
+}
+module.exports.addNum = addNum
+
+// b.js 引入a.js
+const addNum = require('./a.js').addNum
+addNum(1, 2)
+
+```
+
+
+
+
+- AMD：
+
+- CMD
+
+- ESModule  
+
 ### this的指向
 
 在 JavaScript 中，this 关键字用于引用当前执行上下文中的对象。它的值取决于函数被调用的方式，可以是以下几种情况
@@ -1047,15 +1081,19 @@ vue采用虚拟dom来对dom进行操作。在进行新老vnode比对过程中，
 
 ### 组件中的通信方式有哪些？
 
-- :fire: props/$emit：父组件向子组件传递数据使用props，子向父传递数据使用$emit；非父子组件无法使用
-- $children/$parent：父组件通过$children可以拿到子组件的实例，同时可以访问其属性data和方法；子组件通过$parent可以拿到父组件的实例，访问其属性data和方法
-- provide/inject：父组件通过provide提供数据，子孙组件通过inject来获取provide提供的数据
-- ref/refs：父组件在子组件上定义ref，通过$refs来获取子组件实例，访问其属性或者方法
-- eventBus：实例一个vue，并将其暴露出去。在需要通信的组件中相互引入，使用$on监听数据，$emit发送数据
-- vuex：通过全局状态state来共享数据
-- localStorage/sessionStorage：通过本地缓存来进行数据共享
+- :fire: props/$emit（父子组件）：父组件向子组件传递数据使用props，子向父传递数据使用$emit；非父子组件无法使用
+- $children/$parent（父子组件）：父组件通过$children可以拿到子组件的实例，同时可以访问其属性data和方法；子组件通过$parent可以拿到父组件的实例，访问其属性data和方法
+- provide/inject（父子孙组件）：父组件通过provide提供数据，子孙组件通过inject来获取provide提供的数据
+- ref/refs（父子组件）：父组件在子组件上定义ref，通过$refs来获取子组件实例，访问其属性或者方法
+- eventBus（无关联的组件）：实例一个vue，并将其暴露出去。在需要通信的组件中相互引入，使用$on监听数据，$emit发送数据
+- $attrs/$listeners（父子孙组件）：适用于多级嵌套的子组件，获取父组件的属性和方法
+- vuex（通用全局）：通过全局状态state来共享数据
+- localStorage/sessionStorage（通用全局）：通过本地缓存来进行数据共享；缺点是比较占用本地缓存空间
 
 ### vue如何扩展现有的组件？
+
+- 通过mixin混入
+- 通过slot插槽
 
 ### watch和computed的区别
 
