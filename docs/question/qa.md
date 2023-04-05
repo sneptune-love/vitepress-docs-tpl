@@ -831,14 +831,53 @@ let fn = new Promise((resolve, reject) => {
 
 #### 不同点
 
-- 
+- 由于type定义的实际上是别名，所以type可以描述一些基本类型、联合类型和元组类型的别名
 
-- type可以声明基本类型别名、联合类型、元组类型；interface不行
-- interface能够声明合并，type不行
+```ts
+// 基本类型
+type xf1 = number;
+// 联合类型
+type xf2 = string | string[];
+// 元组类型
+type xf3 = [string, number];
+
+```
+
+- interface可以重复定义，最终将其合并为一个接口。但是type则不能重复声明
+
+```ts
+interface xf {
+  name: string
+}
+interface xf {
+  age: number
+}
+
+// 最终xf为name和age都有的接口声明
+const xfMM: xf = {
+  name: '123',
+  age: 18
+}
+
+```
+
+- 动态属性，type可以使用in关键字动态生成属性；但是interface的索引值必须是number或者string，所以interface并不能支持动态生成属性
+
+```ts
+type lang = 'javascript' | 'java';
+type xfLang = {
+  [key in lang]?: string[]
+}
+const xfMM: xfLang = {
+  javascript: ['js', 'this']
+}
+
+```
 
 ### reference和import的区别
 
 
+- 如果你需要引入一个全局的声明，可以使用reference；如果需要引入模块的声明，则使用import
 
 
 ## 5. 面试题-浏览器方面
