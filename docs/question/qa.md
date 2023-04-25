@@ -1,8 +1,6 @@
 
 - [1. 面试题-HTML方面](#1-面试题-html方面)
-  - [1.1. HTML布局元素的分类和应用场景？](#11-html布局元素的分类和应用场景)
-  - [1.2. 减少dom元素的方法，一次性给大量的dom元素怎么优化？](#12-减少dom元素的方法一次性给大量的dom元素怎么优化)
-  - [1.3. 如何保证html语义化,理解语义化标签？](#13-如何保证html语义化理解语义化标签)
+  - [1.3. 一次性渲染大量的Dom，该如何优化？](#13-一次性渲染大量的dom该如何优化)
   - [1.4. DOM事件传递问题](#14-dom事件传递问题)
   - [1.5. async和defer的区别](#15-async和defer的区别)
   - [1.6. rem、em、vw/vh、px的区别](#16-rememvwvhpx的区别)
@@ -15,6 +13,7 @@
   - [2.6. 0.5px边框问题](#26-05px边框问题)
   - [2.7. CSS三角形](#27-css三角形)
 - [3. 面试题-Js方面](#3-面试题-js方面)
+  - [类型转换规则](#类型转换规则)
   - [3.1. 如何理解组件化？](#31-如何理解组件化)
   - [3.2. this的指向](#32-this的指向)
   - [3.3. call、apply、bind的区别](#33-callapplybind的区别)
@@ -28,19 +27,20 @@
   - [3.11. 手写一个promise函数](#311-手写一个promise函数)
 - [4. 面试题-TS方面](#4-面试题-ts方面)
   - [4.1. TS中的interface和type](#41-ts中的interface和type)
-    - [相同点](#相同点)
-    - [不同点](#不同点)
-  - [reference和import的区别](#reference和import的区别)
+    - [4.1.1. 相同点](#411-相同点)
+    - [4.1.2. 不同点](#412-不同点)
+  - [4.2. reference和import的区别](#42-reference和import的区别)
 - [5. 面试题-浏览器方面](#5-面试题-浏览器方面)
   - [5.1. 浏览器渲染机制](#51-浏览器渲染机制)
-  - [5.2. Http、Http2、Https的区别](#52-httphttp2https的区别)
-  - [5.3. get和post的区别](#53-get和post的区别)
-  - [5.4. 常见的状态码](#54-常见的状态码)
-  - [5.5. session、local、cookie的区别](#55-sessionlocalcookie的区别)
-  - [5.6. 浏览器缓存](#56-浏览器缓存)
-    - [5.6.1. 服务端设置缓存](#561-服务端设置缓存)
-    - [5.6.2. 前端如何设置资源不缓存](#562-前端如何设置资源不缓存)
-  - [5.7. 如何防范XSS/CSRF攻击？](#57-如何防范xsscsrf攻击)
+  - [5.2. 网站性能优化](#52-网站性能优化)
+  - [5.3. Http、Http2、Https的区别](#53-httphttp2https的区别)
+  - [5.4. get和post的区别](#54-get和post的区别)
+  - [5.5. 常见的状态码](#55-常见的状态码)
+  - [5.6. session、local、cookie的区别](#56-sessionlocalcookie的区别)
+  - [5.7. 浏览器缓存](#57-浏览器缓存)
+    - [5.7.1. 服务端设置缓存](#571-服务端设置缓存)
+    - [5.7.2. 前端如何设置资源不缓存](#572-前端如何设置资源不缓存)
+  - [5.8. 如何防范XSS/CSRF攻击？](#58-如何防范xsscsrf攻击)
 - [6. 面试题-算法方面](#6-面试题-算法方面)
   - [6.1. 写一个1-100的求和递归](#61-写一个1-100的求和递归)
   - [6.2. 图像旋转算法](#62-图像旋转算法)
@@ -65,50 +65,44 @@
 
 ## 1. 面试题-HTML方面
 
-### 1.1. HTML布局元素的分类和应用场景？
-
-- div元素：通常用于分组和组织其他HTML元素，为它们提供样式和布局。div 元素可以用于创建网页的整个布局和结构。
-- header元素：用于定义文档或页面的标题，通常包含logo、导航菜单和其他相关信息。在网站中，通常会将 header元素置于网页顶部。
-- nav元素：用于定义导航菜单。nav元素可以包含列表、链接和其他HTML元素。
-- main元素：用于定义文档或页面的主要内容。通常包含文章、博客、商品列表等主要内容。
-- section元素：用于将网页内容划分为逻辑部分，通常包含一组相关的内容。可以用于划分网页的章节、文章的段落等。
-- article元素：用于包含独立的、完整的、可复用的内容，通常表示一个新闻文章、博客文章、论坛帖子等。
-- aside元素：用于包含与主要内容相关的附加信息，通常用于包含侧栏、广告、相关链接等。
-- footer元素：用于定义文档或页面的页脚，通常包含版权信息、联系方式等。
-
-### 1.2. 减少dom元素的方法，一次性给大量的dom元素怎么优化？
   
-减少dom元素的方法
+### 1.3. 一次性渲染大量的Dom，该如何优化？
 
-- 合并和压缩 CSS 和 JavaScript 文件：减少文件的数量和大小，可以减少 DOM 元素的数量，从而提高网页的性能
-- 使用 CSS Sprites：将多个图片合并到一个图片中，减少 HTTP 请求的次数，从而减少 DOM 元素的数量
-- 使用 CSS3的transform和animation创建动态效果，减少 JavaScript 操作 DOM 的次数
-- 使用模板引擎：将模板与数据分离，使用模板引擎可以减少 DOM 元素的数量，提高网页性能
+一次性渲染大量的Dom，会造成页面的白屏或者卡顿，对用户造成不好的体验，以下是优化的方案：
 
-一次性给大量的dom元素优化
-
-- 使用 DocumentFragment：将 DOM 元素插入 DocumentFragment，再一次性插入到 DOM 树中，减少了插入操作的次数，从而提高性能
-- 使用 innerHTML：将多个 DOM 元素的 HTML 代码合并为一个字符串，再使用 innerHTML 插入到 DOM 树中，减少 DOM 操作的次数，提高性能
-- 使用虚拟滚动技术：对于需要大量渲染的列表或表格，可以使用虚拟滚动技术，只渲染可见的部分，减少 DOM 元素的数量，提高性能
-- 分批插入：将大量 DOM 元素分批插入到 DOM 树中，避免一次性插入过多的 DOM 元素，减少浏览器的负担，提高性能
+- 虚拟滚动列表：只渲染可视区域内的数据，通过scroll或者IntersectionObserver（监测元素在可视区）、getBoundingClientRect（获取元素相对视口的位置）来判断
   
-### 1.3. 如何保证html语义化,理解语义化标签？
+  ```js
+  // IntersectionObserver使用方法
+  const domA = document.getElementById('domA');
+  const intersectionObserver = new IntersectionObserver((entries) => {
+    if (entries[0].intersectionRatio > 0) {
+      // 目标在视野内，执行加载动作
+    }
+  })
+  intersectionObserver.observe(domA)
+  
+  // getBoundingClientRect使用方法
+  // { x: 0, y: 0, width: 0, height: 0, top: 0, right: 0, left: 0, bottom: 0 }
+  domA.getBoundingClientRect()
+  
+  ```
+- 时间分片
+  - setTimeout：但是当出现快速滚动场景时，会出现闪屏或者白屏。其原因是setTimeout执行频率高于屏幕刷新频率（一般是60Hz，每秒重绘60次）
+  - requestAnimationFrame：同setTimeout相比，requestAnimationFrame的回调会跟随屏幕刷新频率同步执行，并且当程序处于后台模式时，回调会被暂停用以提升性能和电池寿命
+  - fragment + requestAnimationFrame：fragment是dom节点，但并不是dom树的一部分；通过fragment和requestAnimationFrame来对dom渲染进行优化是最合适的选择
 
-保证 HTML 语义化的方法
+  - 使用 DocumentFragments文档片段接口：将 DOM 元素插入 DocumentFragment，再一次性插入到 DOM 树中，减少了插入操作的次数，从而提高性能
 
-- 使用语义化标签可以让页面更具有可读性和可访问性，同时也有利于搜索引擎的优化
-- 使用适当的 alt 属性：对于图片等非文本内容，使用适当的 alt 属性可以提高页面的可访问性
-- 嵌套标签合理：标签的嵌套顺序应当合理，不应出现嵌套错误或不当的情况
+    fragment使用方法如下：
+    ```js
+    const fragment = document.createDocumentFragment()
+    const liDom = document.createElement('div')
+    liDom.textContent = 'xf'
+    fragment.appendChild(liDom)
+    document.body.appendChild(fragment)
+    ```
 
-如何理解语义化标签
-
-- header元素：用于定义文档或页面的标题，通常包含logo、导航菜单和其他相关信息。在网站中，通常会将 header元素置于网页顶部。
-- nav元素：用于定义导航菜单。nav元素可以包含列表、链接和其他HTML元素。
-- main元素：用于定义文档或页面的主要内容。通常包含文章、博客、商品列表等主要内容。
-- section元素：用于将网页内容划分为逻辑部分，通常包含一组相关的内容。可以用于划分网页的章节、文章的段落等。
-- article元素：用于包含独立的、完整的、可复用的内容，通常表示一个新闻文章、博客文章、论坛帖子等。
-- aside元素：用于包含与主要内容相关的附加信息，通常用于包含侧栏、广告、相关链接等。
-- footer元素：用于定义文档或页面的页脚，通常包含版权信息、联系方式等。
 
 ### 1.4. DOM事件传递问题
 
@@ -125,10 +119,24 @@
 
 ### 1.6. rem、em、vw/vh、px的区别
 
-- rem是相对于根元素字体大小的单位
+- rem是相对于根元素html字体大小的单位
 - em是相对于父元素字体大小的单位，适用于元素的width/height/margin/padding
 - vw/vh是屏幕视口单位，1vw即屏幕视口1%的宽度，1vh是屏幕视口1%的高度
 - px是屏幕分辨率像素单位
+
+移动端项目开发目前可用的两种模式：
+
+- rem + lib-flexible适配方案
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+
+// 根据dpr动态计算
+<script src="lib-flexible"></script>
+
+```
+
+- vw适配方案
 
 ---
 
@@ -345,6 +353,37 @@
 ---
 
 ## 3. 面试题-Js方面
+
+
+### 类型转换规则
+
+```js
+/* 原始值 -> 数字 */
+  // 1、字符串转换：去掉引号不是数字，就是NaN；如果字符串两端有空白字符，会自动移除
+  Number('1') // 1
+  Number('1a') // NaN
+  Number('  12 ') // 12
+  Number('1  2') // NaN
+  // 布尔值转换
+  Number(true) // 1
+  Number(false) // 0
+  // null转换
+  Number(null) // 0
+  // undefined转换
+  Number(undefined) // NaN
+  
+  // 2、所有转布尔值：除了null, undefined, null, 0, ''是false，其它的都是true
+  
+  // 3、原始转字符串：给原始值包裹一层引号结束
+  
+  // 4、对象转原始：先调用内部valueOf()方法，如果还是对象，则调用内部方法toString()
+  
+  var obj = { }
+  
+  obj.valueOf() // {}
+  obj.toString() // '[object Object]'
+
+```
 
 ### 3.1. 如何理解组件化？
 
@@ -771,7 +810,7 @@ let fn = new Promise((resolve, reject) => {
 
 主要是起到类型的限制和规范的作用
 
-#### 相同点
+#### 4.1.1. 相同点
 
 - 都可以描述一个对象或者函数
   
@@ -829,7 +868,7 @@ let fn = new Promise((resolve, reject) => {
 
 ```
 
-#### 不同点
+#### 4.1.2. 不同点
 
 - 由于type定义的实际上是别名，所以type可以描述一些基本类型、联合类型和元组类型的别名
 
@@ -874,11 +913,9 @@ const xfMM: xfLang = {
 
 ```
 
-### reference和import的区别
-
+### 4.2. reference和import的区别
 
 - 如果你需要引入一个全局的声明，可以使用reference；如果需要引入模块的声明，则使用import
-
 
 ## 5. 面试题-浏览器方面
 
@@ -888,7 +925,7 @@ const xfMM: xfLang = {
 - 浏览器首先会对该域名进行dns查询，得到一个ip地址并将其缓存下来，下次访问时就不需要进行dns查询了
 - 浏览器通过TCP（三次握手）和服务器建立连接。若果是https协议的地址，那么还需要TSL协商来决定加密方式；最终往返8次，连接建立完毕
 - 浏览器接收到服务端发来的html文件时，开始对其解析
-- 解析Html形成DOM树，解析CSS形成CSSOM树，这两种解析并行进行；解析CSS时会暂停JS脚本的执行
+- 解析Html形成DOM树，解析CSS形成CSSOM树，这两种解析并行进行
 - 将DOM和CSSOM组合成渲染Render树，display属性为none的元素不会出现在Render树上
 - 在Render树上对元素的布局（大小，位置）进行计算，并对元素的层级进行合并
 - 根据计算好的信息调用呈现器的绘制方法，来进行绘制
@@ -923,7 +960,30 @@ const xfMM: xfLang = {
 - 对需要操作的元素的display属性设置为none，然后再修改其样式，最后将元素display属性更改为正常展示（优化为两次）
 - 让元素脱离动画流，减少回流需要损耗的性能资源
 
-### 5.2. Http、Http2、Https的区别
+### 5.2. 网站性能优化
+
+网站性能优化：
+
+- 1、资源体积
+  - 文件体积大小，在编写过程中对代码进行优化删减，构建过程中对代码进行压缩，同时服务端支持的情况下，可以开启gzip压缩
+  - 如果最终输出的文件体积过大，在构建配置过程中对文件进行分割，生成多个小文件
+  - 图片等相关静态资源进行压缩，多个图标进行合并，减少请求数量
+  - 减少没必要的代码库引入
+  
+- 2、网络层面
+  - 减少http请求 
+  - 利用浏览器的缓存机制，服务端对相关资源设置缓存
+  - 对相关静态资源开启cdn节点加速
+  - 减少cookie的体积大小，将静态资源存储在不包含cookie的域名下
+  - 对页面的部分资源请求实施预加载，在浏览器空闲的时候进行
+  
+- 3、用户操作页面
+  - 减少js控制dom的操作，能够用css进行的尽量使用csss
+  - 多使用节流，防抖函数来降低高频触发事件影响的性能和体验
+  - 同时requestAnimationFrame替代setTimeout执行高频操作，防止掉帧卡顿
+  - 静态资源延迟加载
+
+### 5.3. Http、Http2、Https的区别
 
 ``Http2.0新特性``
 
@@ -939,9 +999,9 @@ const xfMM: xfLang = {
 - 加密：https使用SSL/TLS对传输的数据进行加密，安全性强
 - 证书：https请求，浏览器会对服务器进行证书验证，安全性更高
 
-### 5.3. get和post的区别
+### 5.4. get和post的区别
 
-### 5.4. 常见的状态码
+### 5.5. 常见的状态码
 
 - `100 接受的请求正在处理`
 - `200 请求成功`
@@ -957,15 +1017,15 @@ const xfMM: xfLang = {
 - `500 服务器内部错误`
 - `502 服务器代理或者网关出现异常`
 
-### 5.5. session、local、cookie的区别
+### 5.6. session、local、cookie的区别
 
 - sessionStorage是会话缓存，当前页面会话窗口关闭后就会被销毁
 - localStorage是永久性本地缓存，针对当前页面域名进行缓存
 - cookie是可设置过期失效的本地缓存，发送请求时会将该缓存携带至服务端
 
-### 5.6. 浏览器缓存
+### 5.7. 浏览器缓存
 
-#### 5.6.1. 服务端设置缓存
+#### 5.7.1. 服务端设置缓存
 
 - 浏览器发送一个请求，服务端可以在响应头中加入强缓存或者协商缓存字段（缓存策略）。当浏览器发起第二次请求的时候，会将这些字段携带在请求头中，并通过这些字段来判断是否使用浏览器缓存
 
@@ -980,7 +1040,7 @@ const xfMM: xfLang = {
   - `Last-Modified`： 资源文件上一次的修改时间
   - `Etag`： 资源的唯一标识，每次资源更新都会更改
 
-#### 5.6.2. 前端如何设置资源不缓存
+#### 5.7.2. 前端如何设置资源不缓存
 
 - 针对css，js等资源文件，再其引入路径后面增加随机数标签
 - 针对html页面不缓存，可以使用meta标签
@@ -993,7 +1053,7 @@ const xfMM: xfLang = {
 <script src="xxx.com/abc.js?t=12345678"></script>
 ```
 
-### 5.7. 如何防范XSS/CSRF攻击？
+### 5.8. 如何防范XSS/CSRF攻击？
 
 `先解释一下XSS和CSRF攻击是什么`
 

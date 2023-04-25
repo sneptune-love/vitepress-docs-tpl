@@ -1,0 +1,159 @@
+
+
+express框架内部集成了很多功能，例如路由，静态资源，参数解析、视图渲染等中间件
+
+express的中间件模型为线型，Koa的中间件模型则是洋葱型
+
+express通过回调实现异步函数，在多个回调、多个中间件中使用容易造成逻辑混乱
+
+koa通过generator和async/await，使用同步的写法来处理异步，逻辑清晰容易控制
+
+koa是一款灵活的框架，很多功能需要开发者自己引入对应的中间件；同时koa是满足洋葱模型的中间件设计原理，request从外往里执行，response从里往外执行
+
+
+
+
+原生js
+
+给dom元素添加移除绑定事件
+
+给ul中的li添加绑定事件并打印li中内容
+
+document.querySelectorAll('ul li').forEach(li => {
+  li.addEventListener('click', () => {
+    console.log(li.textContent)
+  })
+})
+
+手写一个请求发送，传入'www.baidu.com', 'get', params
+
+function request(url, type, params) {
+  var xhr = new XMLHttpRequest()
+  xhr.open(type, true)
+  if (params) {
+    url += `?${new URLSearchParams(params).toString()}`
+  }
+  xhr.onLoad = function() {
+    if (this.status >= 200 && this.status < 300) {
+      // todo
+    }
+  }
+  xhr.send(url)
+}
+
+css
+
+水平，垂直居中
+
+margin边距重叠问题
+
+移动端适配方案
+
+0.5px问题
+
+
+
+vue中sync是什么意思
+
+
+versions 是一个项目的版本号列表，因多人维护，不规则，动手实现一个版本号处理函数
+
+var versions = ["1.45.0", "1.5", "6", "3.3.3.3.3.3.3"];
+
+// 要求从小到大排序，注意'1.45'比'1.5'大
+
+
+
+二面：前端开发
+
+移动端适配方案
+
+手写一下rem适配js方面的代码
+
+移动端和原生交互的机制
+
+react和rn为是什么可以适应多个平台
+
+页面性能指标有哪些，如何监听资源加载是否完成，如何监听单个资源加载是否完成，白屏性能指标如何计算
+
+手写一下jsonp的实现，传入url, params, callback
+
+
+
+作业帮面试（一面）
+
+如何理解预加载和懒加载？
+
+作用域插槽是怎么实现的？
+
+template执行的机制是是什么？
+
+为什么要使用cdn域名？
+
+webpack如何进行优化？
+
+算法题目1：
+
+输入var list = {
+
+  val: 1,
+
+  next: {
+
+    val: 2,
+
+    next: {
+
+      val: 3,
+
+      next: {
+
+        val: 4,
+
+        next: null
+
+      }
+
+    }
+
+  }
+
+}
+
+输出：var list = {
+
+  val: 4,
+
+  next: {
+
+    val: 3,
+
+    next: {
+
+      val: 2,
+
+      next: {
+
+        val: 1,
+
+        next: null
+
+      }
+
+    }
+
+  }
+
+}
+
+function reserveList(list) {
+  const current = list
+  const prev = null;
+  while(current) {
+    let next = current.next
+    current.next = prev
+    current = next
+  }
+}
+
+算法题目2：输入88888888888，输出88,888,888,888
